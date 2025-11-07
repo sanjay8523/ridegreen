@@ -1,4 +1,4 @@
-// ========== client/src/App.jsx (FINAL CLEANED WORKING VERSION) ==========
+// ========== client/src/App.jsx (FINAL BUILD-READY VERSION) ==========
 import React, {
   createContext,
   useState,
@@ -34,8 +34,8 @@ import {
   CheckCircle,
   XCircle,
   Filter,
-  Phone,
-  Mail,
+  Phone, // Kept, used in Profile
+  Mail, // Kept, used in Profile
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -205,7 +205,7 @@ const AuthProvider = ({ children }) => {
         toast.success("Registration successful! Start your green commute.");
         return true;
       } else {
-        // Assuming the error message is in data.error or data.message from the server
+        // Display the detailed error message returned by the errorHandler (which uses the 'error' key)
         toast.error(
           data.error ||
             data.message ||
@@ -237,7 +237,7 @@ const AuthProvider = ({ children }) => {
 };
 
 const useAuth = () => useContext(AuthContext);
-// const useSocket = () => useContext(SocketContext); // Note: unused currently
+const useSocket = () => useContext(SocketContext);
 
 // -----------------------------------------------------------
 // COMPONENTS
@@ -1465,7 +1465,6 @@ const SearchRides = () => {
 
 // Create Ride Page
 const CreateRide = () => {
-  // Line 1462 (or similar line where the error occurs due to invisible character)
   const [formData, setFormData] = useState({
     originAddress: "",
     originCity: "Mysuru",
@@ -1791,70 +1790,51 @@ const Profile = () => {
 
   const ProfileDetails = () => (
     <div className="space-y-6">
-           {" "}
       <h3 className="text-xl font-bold text-gray-800 border-b pb-2">
-                Personal Information      {" "}
+        Personal Information
       </h3>
-           {" "}
       <div className="grid md:grid-cols-2 gap-4 text-gray-700">
-               {" "}
         <p>
-                    <span className="font-semibold">Email:</span> {user?.email} 
-               {" "}
+          <span className="font-semibold">Email:</span> {user?.email}
         </p>
-               {" "}
         <p>
-                    <span className="font-semibold">Phone:</span>{" "}
-          {user?.phone || "N/A"}       {" "}
+          <span className="font-semibold">Phone:</span> {user?.phone || "N/A"}
         </p>
-               {" "}
         <p>
-                    <span className="font-semibold">Gender:</span>{" "}
-          {user?.gender || "N/A"}       {" "}
+          <span className="font-semibold">Gender:</span> {user?.gender || "N/A"}
         </p>
-               {" "}
         <p>
-                    <span className="font-semibold">Bio:</span>          {" "}
-          {user?.bio || "No bio provided."}       {" "}
+          <span className="font-semibold">Bio:</span>{" "}
+          {user?.bio || "No bio provided."}
         </p>
-             {" "}
       </div>
-           {" "}
+
       <h3 className="text-xl font-bold text-gray-800 border-b pb-2 pt-4">
-                Vehicle Details      {" "}
+        Vehicle Details
       </h3>
-           {" "}
       <div className="grid md:grid-cols-2 gap-4 text-gray-700">
-               {" "}
         <p>
-                    <span className="font-semibold">Make:</span>          {" "}
-          {user?.vehicleDetails?.make || "N/A"}       {" "}
+          <span className="font-semibold">Make:</span>{" "}
+          {user?.vehicleDetails?.make || "N/A"}
         </p>
-               {" "}
         <p>
-                    <span className="font-semibold">Model:</span>          {" "}
-          {user?.vehicleDetails?.model || "N/A"}       {" "}
+          <span className="font-semibold">Model:</span>{" "}
+          {user?.vehicleDetails?.model || "N/A"}
         </p>
-               {" "}
         <p>
-                    <span className="font-semibold">License Plate:</span>      
-              {user?.vehicleDetails?.licensePlate || "N/A"}       {" "}
+          <span className="font-semibold">License Plate:</span>{" "}
+          {user?.vehicleDetails?.licensePlate || "N/A"}
         </p>
-             {" "}
       </div>
-         {" "}
     </div>
   );
 
   const EditProfileForm = () => (
     <form onSubmit={handleSaveProfile} className="space-y-6">
-           {" "}
       <h3 className="text-xl font-bold text-gray-800 border-b pb-2">
-                Edit Details      {" "}
+        Edit Details
       </h3>
-           {" "}
       <div className="grid md:grid-cols-2 gap-4">
-               {" "}
         <input
           name="phone"
           type="tel"
@@ -1864,21 +1844,18 @@ const Profile = () => {
           className="p-3 border rounded-lg"
           required
         />
-               {" "}
         <select
           name="gender"
           value={formData.gender}
           onChange={handleEditChange}
           className="p-3 border rounded-lg"
         >
-                    <option value="">Select Gender</option>         {" "}
-          <option value="male">Male</option>         {" "}
-          <option value="female">Female</option>         {" "}
-          <option value="other">Other</option>       {" "}
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
         </select>
-             {" "}
       </div>
-           {" "}
       <textarea
         name="bio"
         placeholder="Short Bio (e.g., I love chatting, I commute to NIE daily)"
@@ -1887,13 +1864,11 @@ const Profile = () => {
         className="w-full p-3 border rounded-lg"
         rows="3"
       />
-           {" "}
+
       <h3 className="text-xl font-bold text-gray-800 border-b pb-2 pt-4">
-                Edit Vehicle      {" "}
+        Edit Vehicle
       </h3>
-           {" "}
       <div className="grid md:grid-cols-3 gap-4">
-               {" "}
         <input
           name="make"
           placeholder="Vehicle Make (e.g., Maruti)"
@@ -1901,7 +1876,6 @@ const Profile = () => {
           onChange={handleEditChange}
           className="p-3 border rounded-lg"
         />
-               {" "}
         <input
           name="model"
           placeholder="Vehicle Model (e.g., Swift)"
@@ -1909,7 +1883,6 @@ const Profile = () => {
           onChange={handleEditChange}
           className="p-3 border rounded-lg"
         />
-               {" "}
         <input
           name="licensePlate"
           placeholder="License Plate (e.g., KA-01-AB-1234)"
@@ -1917,124 +1890,89 @@ const Profile = () => {
           onChange={handleEditChange}
           className="p-3 border rounded-lg"
         />
-             {" "}
       </div>
-           {" "}
+
       <div className="flex gap-4 pt-4">
-               {" "}
         <button
           type="submit"
           disabled={loading}
           className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold hover:bg-emerald-600 transition-colors disabled:bg-gray-400"
         >
-                    {loading ? "Saving..." : "Save Changes"}       {" "}
+          {loading ? "Saving..." : "Save Changes"}
         </button>
-               {" "}
         <button
           type="button"
           onClick={() => setIsEditing(false)}
           className="flex-1 border border-gray-400 text-gray-700 py-3 rounded-lg hover:bg-gray-100 transition-colors"
         >
-                    Cancel        {" "}
+          Cancel
         </button>
-             {" "}
       </div>
-         {" "}
     </form>
   );
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-           {" "}
       <div className="max-w-4xl mx-auto px-4">
-               {" "}
         <div className="bg-white rounded-xl shadow-lg p-8">
-                   {" "}
           <div className="flex flex-col md:flex-row gap-8 items-center md:items-start mb-8 pb-4 border-b">
-                       {" "}
             <img
               src={user?.avatar}
               alt={user?.fullName}
               className="h-32 w-32 rounded-full border-4 border-emerald-500"
             />
-                       {" "}
             <div className="flex-1 text-center md:text-left">
-                           {" "}
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                                {user?.fullName}             {" "}
+                {user?.fullName}
               </h1>
-                           {" "}
               <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
-                               {" "}
                 <div className="flex items-center gap-1 text-yellow-500">
-                                    <Star className="h-5 w-5 fill-current" />   
-                               {" "}
+                  <Star className="h-5 w-5 fill-current" />
                   <span className="font-semibold">
-                                       {" "}
-                    {user?.rating?.average?.toFixed(1) || "5.0"}               
-                     {" "}
+                    {user?.rating?.average?.toFixed(1) || "5.0"}
                   </span>
-                                 {" "}
                 </div>
-                               {" "}
                 {user?.verified && (
                   <div className="flex items-center gap-1 text-blue-500">
-                                        <CheckCircle className="h-5 w-5" />     
-                                 {" "}
-                    <span className="text-sm font-medium">Verified User</span> 
-                                   {" "}
+                    <CheckCircle className="h-5 w-5" />
+                    <span className="text-sm font-medium">Verified User</span>
                   </div>
                 )}
-                             {" "}
               </div>
-                         {" "}
             </div>
-                       {" "}
             <div className="md:w-40 text-center md:text-right">
-                           {" "}
               <button
                 onClick={() => setIsEditing(!isEditing)}
                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors font-semibold"
               >
-                                {isEditing ? "Viewing" : "Edit Profile"}       
-                     {" "}
+                {isEditing ? "Viewing" : "Edit Profile"}
               </button>
-                         {" "}
             </div>
-                     {" "}
           </div>
-                    {isEditing ? <EditProfileForm /> : <ProfileDetails />}     
-           {" "}
+
+          {isEditing ? <EditProfileForm /> : <ProfileDetails />}
         </div>
-               {" "}
+
         <div className="mt-8">
-                   {" "}
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                        Account Actions          {" "}
+            Account Actions
           </h2>
-                   {" "}
           <div className="flex gap-4 bg-white p-6 rounded-xl shadow-md">
-                       {" "}
             <button
               onClick={() => navigate("/dashboard")}
               className="flex-1 border-2 border-emerald-500 text-emerald-600 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors"
             >
-                            View Ride History            {" "}
+              View Ride History
             </button>
-                       {" "}
             <button
               onClick={logout}
               className="flex-1 bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors"
             >
-                            Logout            {" "}
+              Logout
             </button>
-                     {" "}
           </div>
-                 {" "}
         </div>
-             {" "}
       </div>
-         {" "}
     </div>
   );
 };
@@ -2047,7 +1985,8 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // NOTE: This uses the /forgotpassword endpoint defined in authController.js
+    setLoading(true);
+    // NOTE: This uses the /forgotpassword endpoint defined in authController.js
     try {
       const response = await fetch(`${API_URL}/auth/forgotpassword`, {
         method: "POST",
@@ -2069,28 +2008,18 @@ const ForgotPassword = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center px-4 py-12">
-           {" "}
       <div className="bg-white p-8 md:p-10 rounded-3xl shadow-2xl w-full max-w-md">
-               {" "}
         <div className="text-center mb-8">
-                   {" "}
-          <h2 className="text-3xl font-bold text-gray-900">Forgot Password</h2> 
-                 {" "}
+          <h2 className="text-3xl font-bold text-gray-900">Forgot Password</h2>
           <p className="text-gray-600 mt-2">
-                        Enter your email to receive a password reset link.      
-               {" "}
+            Enter your email to receive a password reset link.
           </p>
-                 {" "}
         </div>
-               {" "}
         <form onSubmit={handleSubmit} className="space-y-6">
-                   {" "}
           <div>
-                       {" "}
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                            Email            {" "}
+              Email
             </label>
-                       {" "}
             <input
               type="email"
               value={email}
@@ -2099,32 +2028,24 @@ const ForgotPassword = () => {
               placeholder="your@email.com"
               required
             />
-                     {" "}
           </div>
-                   {" "}
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-emerald-500 text-white py-3 rounded-xl font-semibold hover:bg-emerald-600 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg"
           >
-                        {loading ? "Sending..." : "Send Reset Link"}         {" "}
+            {loading ? "Sending..." : "Send Reset Link"}
           </button>
-                 {" "}
         </form>
-               {" "}
         <p className="text-center mt-6">
-                   {" "}
           <Link
             to="/login"
             className="text-sm text-gray-500 hover:text-gray-700"
           >
-                        Back to Login          {" "}
+            Back to Login
           </Link>
-                 {" "}
         </p>
-             {" "}
       </div>
-         {" "}
     </div>
   );
 };
@@ -2136,11 +2057,8 @@ const ForgotPassword = () => {
 function App() {
   return (
     <AuthProvider>
-           {" "}
       <Router>
-               {" "}
         <div className="min-h-screen bg-gray-50">
-                   {" "}
           <Toaster
             position="top-right"
             toastOptions={{
@@ -2158,57 +2076,48 @@ function App() {
               },
             }}
           />
-                    <Navbar />         {" "}
+          <Navbar />
           <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                       {" "}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-                       {" "}
             <Route
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                                    <Dashboard />               {" "}
+                  <Dashboard />
                 </ProtectedRoute>
               }
             />
-                       {" "}
             <Route
               path="/search"
               element={
                 <ProtectedRoute>
-                                    <SearchRides />               {" "}
+                  <SearchRides />
                 </ProtectedRoute>
               }
             />
-                       {" "}
             <Route
               path="/create-ride"
               element={
                 <ProtectedRoute>
-                                    <CreateRide />               {" "}
+                  <CreateRide />
                 </ProtectedRoute>
               }
             />
-                       {" "}
             <Route
               path="/profile"
               element={
                 <ProtectedRoute>
-                                    <Profile />               {" "}
+                  <Profile />
                 </ProtectedRoute>
               }
             />
-                        <Route path="*" element={<Navigate to="/" />} />       
-             {" "}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
-                 {" "}
         </div>
-             {" "}
       </Router>
-         {" "}
     </AuthProvider>
   );
 }
