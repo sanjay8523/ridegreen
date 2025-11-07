@@ -1,0 +1,19 @@
+# ========== netlify.toml (FULL CODE) ==========
+[build]
+  # Set the base directory where Netlify should run npm commands (the 'client' folder)
+  base = "client"
+  
+  # Set the build command relative to the base directory
+  command = "npm run build"
+  
+  # Set the publish directory relative to the base directory (the 'build' folder inside 'client')
+  publish = "build"
+
+# Ignore the build cache and treat the root as a monorepo (optional cleanup)
+[build.processing]
+  skip_processing = false
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
