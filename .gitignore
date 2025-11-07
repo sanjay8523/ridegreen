@@ -1,0 +1,11 @@
+# ========== .gitignore (in the root directory: rigegreen2/) ==========
+# Dependencies
+/node_modules
+/server/node_modules
+/client/node_modules
+
+# Build artifacts
+/client/build
+
+# Environment Variables
+.env
